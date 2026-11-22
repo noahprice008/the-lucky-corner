@@ -15,3 +15,6 @@ export function getSlots(now:Date=new Date()):PickupSlot[] {
 export function ageAt(dob:string,now:Date=new Date()):number { const birth=new Date(dob+'T00:00:00'); if(Number.isNaN(birth.getTime()))return 0;let age=now.getFullYear()-birth.getFullYear(); if(now.getMonth()<birth.getMonth()||(now.getMonth()===birth.getMonth()&&now.getDate()<birth.getDate()))age--;return age; }
 export function canAccessAdult(dob:string|undefined,confirmed:boolean,now:Date=new Date()){return Boolean(dob && ageAt(dob,now)>=18 && confirmed);}
 export function calculateTotal(subtotal:number,code:string){return Math.round(subtotal*(code.trim().toUpperCase()==='DEMO10'?0.9:1)*100)/100;}
+// Local demo navigation only; no real authentication or security boundary.
+export function canPreviewRole(role:string|undefined,page:'owner'|'staff'){return role===page;}
+export function isDemoSmsCode(code:string){return /^\d{6}$/.test(code);}

@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -27,4 +28,13 @@ use the editor.
   `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
+
 <!-- LOVABLE:END -->
+
+## Demo architecture
+
+- Store demo state belongs in the shared StoreProvider; only the cart persists to localStorage so no live service is required.
+- Use independent TanStack leaf routes for every requested page, with bilingual copy in src/data/translations.ts and page-specific metadata.
+- Keep mock data and scheduling/age/discount rules in src/data with unit tests so a future Excel source can replace fixtures.
+- Demo roles only gate navigation and rendering; they are not authentication or a production security boundary.
+- Home-screen support is manifest-only; do not register an app-shell service worker because offline use was not requested.

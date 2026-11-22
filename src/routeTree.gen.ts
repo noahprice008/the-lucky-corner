@@ -10,33 +10,258 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountRouteImport } from './routes/account'
+import { Route as CartRouteImport } from './routes/cart'
+import { Route as CellarRouteImport } from './routes/cellar'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ConfirmationRouteImport } from './routes/confirmation'
+import { Route as EntryRouteImport } from './routes/entry'
+import { Route as HistoryRouteImport } from './routes/history'
+import { Route as InfoRouteImport } from './routes/info'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as LotteryRouteImport } from './routes/lottery'
+import { Route as NoticesRouteImport } from './routes/notices'
+import { Route as OwnerRouteImport } from './routes/owner'
+import { Route as PromotionsRouteImport } from './routes/promotions'
+import { Route as ShopRouteImport } from './routes/shop'
+import { Route as StaffRouteImport } from './routes/staff'
+import { Route as SupportRouteImport } from './routes/support'
+import { Route as ProductIdRouteImport } from './routes/product.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CellarRoute = CellarRouteImport.update({
+  id: '/cellar',
+  path: '/cellar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfirmationRoute = ConfirmationRouteImport.update({
+  id: '/confirmation',
+  path: '/confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntryRoute = EntryRouteImport.update({
+  id: '/entry',
+  path: '/entry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InfoRoute = InfoRouteImport.update({
+  id: '/info',
+  path: '/info',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LotteryRoute = LotteryRouteImport.update({
+  id: '/lottery',
+  path: '/lottery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoticesRoute = NoticesRouteImport.update({
+  id: '/notices',
+  path: '/notices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OwnerRoute = OwnerRouteImport.update({
+  id: '/owner',
+  path: '/owner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromotionsRoute = PromotionsRouteImport.update({
+  id: '/promotions',
+  path: '/promotions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffRoute = StaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductIdRoute = ProductIdRouteImport.update({
+  id: '/product/$id',
+  path: '/product/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
+  '/cart': typeof CartRoute
+  '/cellar': typeof CellarRoute
+  '/checkout': typeof CheckoutRoute
+  '/confirmation': typeof ConfirmationRoute
+  '/entry': typeof EntryRoute
+  '/history': typeof HistoryRoute
+  '/info': typeof InfoRoute
+  '/login': typeof LoginRoute
+  '/lottery': typeof LotteryRoute
+  '/notices': typeof NoticesRoute
+  '/owner': typeof OwnerRoute
+  '/promotions': typeof PromotionsRoute
+  '/shop': typeof ShopRoute
+  '/staff': typeof StaffRoute
+  '/support': typeof SupportRoute
+  '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
+  '/cart': typeof CartRoute
+  '/cellar': typeof CellarRoute
+  '/checkout': typeof CheckoutRoute
+  '/confirmation': typeof ConfirmationRoute
+  '/entry': typeof EntryRoute
+  '/history': typeof HistoryRoute
+  '/info': typeof InfoRoute
+  '/login': typeof LoginRoute
+  '/lottery': typeof LotteryRoute
+  '/notices': typeof NoticesRoute
+  '/owner': typeof OwnerRoute
+  '/promotions': typeof PromotionsRoute
+  '/shop': typeof ShopRoute
+  '/staff': typeof StaffRoute
+  '/support': typeof SupportRoute
+  '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
+  '/cart': typeof CartRoute
+  '/cellar': typeof CellarRoute
+  '/checkout': typeof CheckoutRoute
+  '/confirmation': typeof ConfirmationRoute
+  '/entry': typeof EntryRoute
+  '/history': typeof HistoryRoute
+  '/info': typeof InfoRoute
+  '/login': typeof LoginRoute
+  '/lottery': typeof LotteryRoute
+  '/notices': typeof NoticesRoute
+  '/owner': typeof OwnerRoute
+  '/promotions': typeof PromotionsRoute
+  '/shop': typeof ShopRoute
+  '/staff': typeof StaffRoute
+  '/support': typeof SupportRoute
+  '/product/$id': typeof ProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/account'
+    | '/cart'
+    | '/cellar'
+    | '/checkout'
+    | '/confirmation'
+    | '/entry'
+    | '/history'
+    | '/info'
+    | '/login'
+    | '/lottery'
+    | '/notices'
+    | '/owner'
+    | '/promotions'
+    | '/shop'
+    | '/staff'
+    | '/support'
+    | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/account'
+    | '/cart'
+    | '/cellar'
+    | '/checkout'
+    | '/confirmation'
+    | '/entry'
+    | '/history'
+    | '/info'
+    | '/login'
+    | '/lottery'
+    | '/notices'
+    | '/owner'
+    | '/promotions'
+    | '/shop'
+    | '/staff'
+    | '/support'
+    | '/product/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/account'
+    | '/cart'
+    | '/cellar'
+    | '/checkout'
+    | '/confirmation'
+    | '/entry'
+    | '/history'
+    | '/info'
+    | '/login'
+    | '/lottery'
+    | '/notices'
+    | '/owner'
+    | '/promotions'
+    | '/shop'
+    | '/staff'
+    | '/support'
+    | '/product/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
+  CartRoute: typeof CartRoute
+  CellarRoute: typeof CellarRoute
+  CheckoutRoute: typeof CheckoutRoute
+  ConfirmationRoute: typeof ConfirmationRoute
+  EntryRoute: typeof EntryRoute
+  HistoryRoute: typeof HistoryRoute
+  InfoRoute: typeof InfoRoute
+  LoginRoute: typeof LoginRoute
+  LotteryRoute: typeof LotteryRoute
+  NoticesRoute: typeof NoticesRoute
+  OwnerRoute: typeof OwnerRoute
+  PromotionsRoute: typeof PromotionsRoute
+  ShopRoute: typeof ShopRoute
+  StaffRoute: typeof StaffRoute
+  SupportRoute: typeof SupportRoute
+  ProductIdRoute: typeof ProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +273,147 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cellar': {
+      id: '/cellar'
+      path: '/cellar'
+      fullPath: '/cellar'
+      preLoaderRoute: typeof CellarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confirmation': {
+      id: '/confirmation'
+      path: '/confirmation'
+      fullPath: '/confirmation'
+      preLoaderRoute: typeof ConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entry': {
+      id: '/entry'
+      path: '/entry'
+      fullPath: '/entry'
+      preLoaderRoute: typeof EntryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/info': {
+      id: '/info'
+      path: '/info'
+      fullPath: '/info'
+      preLoaderRoute: typeof InfoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lottery': {
+      id: '/lottery'
+      path: '/lottery'
+      fullPath: '/lottery'
+      preLoaderRoute: typeof LotteryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notices': {
+      id: '/notices'
+      path: '/notices'
+      fullPath: '/notices'
+      preLoaderRoute: typeof NoticesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/owner': {
+      id: '/owner'
+      path: '/owner'
+      fullPath: '/owner'
+      preLoaderRoute: typeof OwnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promotions': {
+      id: '/promotions'
+      path: '/promotions'
+      fullPath: '/promotions'
+      preLoaderRoute: typeof PromotionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff': {
+      id: '/staff'
+      path: '/staff'
+      fullPath: '/staff'
+      preLoaderRoute: typeof StaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/$id': {
+      id: '/product/$id'
+      path: '/product/$id'
+      fullPath: '/product/$id'
+      preLoaderRoute: typeof ProductIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
+  CartRoute: CartRoute,
+  CellarRoute: CellarRoute,
+  CheckoutRoute: CheckoutRoute,
+  ConfirmationRoute: ConfirmationRoute,
+  EntryRoute: EntryRoute,
+  HistoryRoute: HistoryRoute,
+  InfoRoute: InfoRoute,
+  LoginRoute: LoginRoute,
+  LotteryRoute: LotteryRoute,
+  NoticesRoute: NoticesRoute,
+  OwnerRoute: OwnerRoute,
+  PromotionsRoute: PromotionsRoute,
+  ShopRoute: ShopRoute,
+  StaffRoute: StaffRoute,
+  SupportRoute: SupportRoute,
+  ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
