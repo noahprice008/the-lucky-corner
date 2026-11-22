@@ -1,10 +1,11 @@
-import { useState, useEffect, type FormEvent } from "react";
-import { Printer, CalendarDays, Save, Check } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Printer, CalendarDays, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStore, Price } from "./context";
 import { PageHeading, SlotLabel } from "./common";
 import { RoleGate, Chart } from "./account";
-import { products, kpis, type Notice } from "@/data/mock";
+import { PostsManager } from "./posts-admin";
+import { products, kpis } from "@/data/mock";
 import { localDate } from "@/data/slots";
 import { LOGO_URL } from "@/lib/brand";
 export function OwnerPage() {
@@ -18,8 +19,6 @@ function OwnerDashboard() {
   const {
     t,
     tr,
-    notices,
-    setNotices,
     stock,
     setStock,
     adultVisible,
@@ -29,29 +28,10 @@ function OwnerDashboard() {
     specialEnabled,
     setSpecialEnabled,
   } = useStore();
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [titleEn, setTitleEn] = useState("");
-  const [textEn, setTextEn] = useState("");
-  const [type, setType] = useState<Notice["type"]>("news");
-  const [from, setFrom] = useState(localDate(new Date()));
-  const [until, setUntil] = useState(localDate(new Date()));
-  const publish = (e: FormEvent) => {
-    e.preventDefault();
-    if (until < from) return;
-    setNotices((old) => [
-      { id: `n${Date.now()}`, title: [title, titleEn], body: [text, textEn], type, from, until },
-      ...old,
-    ]);
-    setTitle("");
-    setText("");
-    setTitleEn("");
-    setTextEn("");
-    toast(t("saved"));
-  };
   return (
     <main className="page-width page-body">
       <PageHeading title="owner" subtitle="demo" />
+      <PostsManager />
       <div className="metric-grid">
         {[
           { label: "todayOrders" as const, value: kpis.todayOrders },
@@ -92,81 +72,22 @@ function OwnerDashboard() {
               </p>
             ))}
         </section>
-        <form className="summary" onSubmit={publish}>
-          <h2 className="text-xl font-bold mb-5">{t("editNotice")}</h2>
-          <label className="form-field">
-            {t("title")}
-            <input required value={title} onChange={(e) => setTitle(e.target.value)} />
-          </label>
-          <label className="form-field">
-            {t("text")}
-            <textarea required rows={3} value={text} onChange={(e) => setText(e.target.value)} />
-          </label>
-          <label className="form-field">
-            {t("titleEnglish")}
-            <input required value={titleEn} onChange={(e) => setTitleEn(e.target.value)} />
-          </label>
-          <label className="form-field">
-            {t("textEnglish")}
-            <textarea
-              required
-              rows={2}
-              value={textEn}
-              onChange={(e) => setTextEn(e.target.value)}
+        <div>
+          <h2 className="text-xl font-bold">{t("dailyManage")}</h2>
+          <label className="toggle-row">
+            {t("specialOffer")} · {t("snackOffer")}
+            <input
+              type="checkbox"
+              checked={specialEnabled}
+              onChange={(e) => setSpecialEnabled(e.target.checked)}
             />
           </label>
-          <label className="form-field">
-            {t("type")}
-            <select
-              value={type}
-              onChange={(e) => {
-                const v = e.target.value;
-                if (v === "news" || v === "specials" || v === "school") setType(v);
-              }}
-            >
-              <option value="news">{t("news")}</option>
-              <option value="specials">{t("specials")}</option>
-              <option value="school">{t("school")}</option>
-            </select>
-          </label>
-          <div className="form-grid">
-            <label className="form-field">
-              {t("from")}
-              <input type="date" required value={from} onChange={(e) => setFrom(e.target.value)} />
-            </label>
-            <label className="form-field">
-              {t("until")}
-              <input
-                type="date"
-                required
-                min={from}
-                value={until}
-                onChange={(e) => setUntil(e.target.value)}
-              />
-            </label>
-          </div>
-          <Button type="submit">
-            <Check />
-            {t("publish")}
+          <Button className="mt-4" onClick={() => toast(t("saved"))}>
+            <Save />
+            {t("save")}
           </Button>
-          <p className="text-sm text-muted-foreground mt-4">{t("futureWhatsapp")}</p>
-        </form>
+        </div>
       </div>
-      <section className="section-divider">
-        <h2 className="text-xl font-bold">{t("dailyManage")}</h2>
-        <label className="toggle-row">
-          {t("specialOffer")} · {t("snackOffer")}
-          <input
-            type="checkbox"
-            checked={specialEnabled}
-            onChange={(e) => setSpecialEnabled(e.target.checked)}
-          />
-        </label>
-        <Button className="mt-4" onClick={() => toast(t("saved"))}>
-          <Save />
-          {t("save")}
-        </Button>
-      </section>
       <section className="section-divider">
         <h2 className="text-xl font-bold">{t("stockEditor")}</h2>
         <label className="toggle-row">

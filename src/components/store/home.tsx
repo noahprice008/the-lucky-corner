@@ -1,8 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ShoppingBasket, Sparkles, LockKeyhole, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CELLAR_URL, GROCERIES_URL, LOGO_URL } from "@/lib/brand";
-import { products, categories } from "@/data/mock";
+import { CELLAR_URL, GROCERIES_URL, LOGO_URL, STORE_BG_URL } from "@/lib/brand";
+import { products, categories, livePosts } from "@/data/mock";
+import { localDate } from "@/data/slots";
+import { NoticeCard } from "./notice-card";
+import { CategoryArt } from "./product-art";
 import { useStore, DirectionArrow } from "./context";
 import { ProductCard } from "./common";
 export function Gateways() {
@@ -40,10 +43,12 @@ export function Gateways() {
 }
 export function HomePage() {
   const { t, tr, notices, specialEnabled } = useStore();
+  const posts = livePosts(notices, localDate(new Date()));
+  const pinned = posts.filter((n) => n.pinned).slice(0, 2);
   return (
     <main className="page-width home-content">
       <section className="hero">
-        <img src={GROCERIES_URL} className="hero-photo" alt={t("market")} />
+        <img src={STORE_BG_URL} className="hero-photo" alt="" />
         <div className="hero-copy">
           <div className="hero-eyebrow">
             <Sparkles size={15} />
@@ -66,6 +71,24 @@ export function HomePage() {
           </div>
         </div>
       </section>
+      {pinned.length > 0 && (
+        <section className="pinned-posts" aria-label={t("postsFromCorner")}>
+          <div className="section-heading">
+            <h2>{t("postsFromCorner")}</h2>
+            <Link to="/notices">
+              {t("allNotices")}
+              <DirectionArrow />
+            </Link>
+          </div>
+          <div className="notices-preview mt-0">
+            {pinned.map((n) => (
+              <Link key={n.id} to="/notices" className="pinned-link">
+                <NoticeCard notice={n} featured />
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
       <Gateways />
       <section className="category-section">
         <div className="section-heading">
@@ -81,7 +104,7 @@ export function HomePage() {
             .map((c) => (
               <Link to="/shop" search={{ category: c.id }} key={c.id} className="category-item">
                 <div className="category-art" role="img" aria-label={tr(c.name)}>
-                  {c.emoji}
+                  <CategoryArt id={c.id} />
                 </div>
                 <span>{tr(c.name)}</span>
               </Link>
@@ -129,14 +152,14 @@ export function HomePage() {
           </Link>
         </div>
         <div className="notices-preview">
-          {notices.slice(0, 2).map((n) => (
-            <Link key={n.id} to="/notices" className="notice-card">
-              <span className="notice-type">{t(n.type)}</span>
-              <h3>{tr(n.title)}</h3>
-              <p>{tr(n.body)}</p>
-              <div className="notice-date">{new Date(n.from).toLocaleDateString()}</div>
-            </Link>
-          ))}
+          {posts
+            .filter((n) => !pinned.includes(n))
+            .slice(0, 2)
+            .map((n) => (
+              <Link key={n.id} to="/notices" className="pinned-link">
+                <NoticeCard notice={n} />
+              </Link>
+            ))}
         </div>
       </section>
     </main>

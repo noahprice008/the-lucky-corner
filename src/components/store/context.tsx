@@ -11,8 +11,17 @@ import {
   ArrowLeft,
   ArrowRight,
   Globe,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { languages } from "@/data/languages";
 import { LOGO_URL } from "@/lib/brand";
 import { copy, type CopyKey, type Lang, type Bilingual } from "@/data/translations";
 import {
@@ -88,7 +97,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   );
   const [adultVisible, setAdultVisible] = useState(true);
   const t = (key: CopyKey) => copy[key][lang === "he" ? 0 : 1];
-  const tr = (v: Bilingual) => v[lang === "he" ? 0 : 1];
+  const tr = (v: Bilingual) => v[lang === "he" ? 0 : 1] || v[0];
   useEffect(() => {
     try {
       const stored = JSON.parse(localStorage.getItem("lucky-cart") ?? "[]") as unknown;
@@ -258,26 +267,24 @@ export function StoreShell({ children }: { children: ReactNode }) {
             <Link to="/info">{t("info")}</Link>
           </nav>
           <div className="header-actions">
-            <div className="language-control">
-              <Globe size={14} />
-              <Button
-                variant="ghost"
-                className={lang === "he" ? "language-active" : ""}
-                onClick={() => setLang("he")}
-                aria-label="עברית"
-              >
-                עב
-              </Button>
-              <span className="text-muted-foreground">/</span>
-              <Button
-                variant="ghost"
-                className={lang === "en" ? "language-active" : ""}
-                onClick={() => setLang("en")}
-                aria-label="English"
-              >
-                EN
-              </Button>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="language-trigger" aria-label={t("language")}>
+                  <Globe size={16} />
+                  <span>{languages.find((l) => l.code === lang)?.label}</span>
+                  <ChevronDown size={14} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="language-menu">
+                <DropdownMenuRadioGroup value={lang} onValueChange={(v) => setLang(v as Lang)}>
+                  {languages.map((l) => (
+                    <DropdownMenuRadioItem key={l.code} value={l.code} lang={l.code} dir={l.dir}>
+                      {l.label}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button asChild variant="ghost" size="icon" className="header-account">
               <Link to="/account" aria-label={t("account")}>
                 <UserRound />
@@ -314,6 +321,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
           <div>
             <div className="footer-name">{t("brand")}</div>
             <div className="footer-tagline">{t("footer")}</div>
+            <div className="footer-credit">{t("photoCredit")}</div>
           </div>
           <div className="footer-links">
             <Link to="/entry">{t("entry")}</Link>

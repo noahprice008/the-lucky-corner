@@ -1,3 +1,4 @@
+import { ProductImage } from "./product-art";
 import { useState, useEffect } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
 import { Mic, Search, Minus, Plus, Heart } from "lucide-react";
@@ -103,7 +104,7 @@ export function ProductPage({ id }: { id: string }) {
   const content = (
     <div className="two-column">
       <div className="detail-art" role="img" aria-label={tr(p.name)}>
-        {p.emoji}
+        <ProductImage product={p} />
       </div>
       <div className="detail-copy">
         {p.isAdult18 && <span className="notice-type red-flag">18+</span>}

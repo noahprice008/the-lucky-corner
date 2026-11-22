@@ -1,3 +1,4 @@
+import { ProductImage } from "./product-art";
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Minus, Plus, Trash2, Check, ShoppingBag, CalendarDays, CreditCard } from "lucide-react";
@@ -23,7 +24,9 @@ export function CartPage() {
               if (!p) return null;
               return (
                 <div className="cart-row" key={p.id}>
-                  <div className="cart-art">{p.emoji}</div>
+                  <div className="cart-art">
+                    <ProductImage product={p} />
+                  </div>
                   <div className="min-w-0">
                     <Link to="/product/$id" params={{ id: p.id }} className="font-semibold">
                       {tr(p.name)}

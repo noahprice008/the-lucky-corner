@@ -1,0 +1,13 @@
+{
+  "_note": "Product index (0-based, same order as productText) -> Open Food Facts barcode. Photos are downloaded by scripts/fetch-product-images.mjs into public/images/products/<barcode>.jpg. Products without a photo show an illustrated icon.",
+  "0": "7290000066318",
+  "1": "7290000066226",
+  "5": "7290116931241",
+  "14": "7290000170053",
+  "16": "5449000000996",
+  "17": "7290110560836",
+  "18": "7290114310918",
+  "24": "7290000061764",
+  "25": "7290006764072",
+  "31": "7290112496072"
+}

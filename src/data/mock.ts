@@ -6,6 +6,7 @@ import {
   type Bilingual,
 } from "./translations";
 import { getSlots } from "./slots";
+import barcodes from "./product-barcodes.json";
 // Category: numeric ID, bilingual name, visual placeholder, adult flag.
 export const categories = categoryText.map((name, id) => ({
   id,
@@ -24,7 +25,22 @@ export interface Product {
   isAdult18: boolean;
   isOutOfStock: boolean;
   emoji: string;
+  kind: ProductKind;
+  /** Real photo path when available (downloaded by scripts/fetch-product-images.mjs). */
+  image?: string;
 }
+export type ProductKind =
+  | "bag" | "bottle" | "carton" | "tub" | "tissue" | "notebook" | "pen" | "cup" | "beer"
+  | "wine" | "spirit" | "card" | "bar" | "pencils" | "eraser" | "jar" | "soap" | "box";
+const kinds: ProductKind[] = [
+  "bag", "bag", "carton", "bottle", "carton", "tub", "notebook", "pen", "tissue", "cup", "beer",
+  "wine", "card", "bag", "bar", "bottle", "bottle", "tub", "tub", "soap", "tissue", "pencils",
+  "eraser", "cup", "jar", "beer", "wine", "spirit", "spirit", "card", "notebook", "box",
+];
+const photoFor = (i: number): string | undefined => {
+  const code = (barcodes as Record<string, string>)[String(i)];
+  return code ? `/images/products/${code}.jpg` : undefined;
+};
 const prices = [
   7.9, 8.5, 12.9, 3.5, 6.2, 7.5, 6, 3.5, 24.9, 9, 19, 69, 10, 9.9, 8.9, 5.5, 9.9, 4.9, 14.9, 11.9,
   12.9, 14.9, 2.5, 7, 8, 15, 59, 79, 129, 12, 16, 6.9,
@@ -76,6 +92,8 @@ export const products: Product[] = productText.map((name, i) => ({
   isAdult18: (cats[i] ?? 0) >= 6,
   isOutOfStock: i === 18 || i === 28,
   emoji: emojis[i] ?? "🛍️",
+  kind: kinds[i] ?? "box",
+  ...(photoFor(i) ? { image: photoFor(i) as string } : {}),
 }));
 // Notice: stable ID, translated content, filter type and active date range.
 export interface Notice {
@@ -85,11 +103,31 @@ export interface Notice {
   type: "specials" | "news" | "school";
   from: string;
   until: string;
+  /** Pinned posts are shown first and featured on the home page. */
+  pinned?: boolean;
+  /** Drafts are visible to the owner only. */
+  draft?: boolean;
+  /** Optional photo (URL or data URL) shown on the post card. */
+  image?: string;
+}
+export type NoticeStatus = "draft" | "scheduled" | "live" | "expired";
+export function noticeStatus(n: Notice, today: string): NoticeStatus {
+  if (n.draft) return "draft";
+  if (today < n.from) return "scheduled";
+  if (today > n.until) return "expired";
+  return "live";
+}
+/** Posts customers can see today, pinned first, newest first within each group. */
+export function livePosts(list: Notice[], today: string): Notice[] {
+  return list
+    .filter((n) => noticeStatus(n, today) === "live")
+    .sort((a, b) => Number(!!b.pinned) - Number(!!a.pinned));
 }
 export const notices: Notice[] = noticeText.map((n, i) => ({
   ...n,
   id: `n${i}`,
   type: i === 1 ? "school" : i === 3 ? "news" : "specials",
+  pinned: i === 0,
   from: "2026-11-01",
   until: "2026-12-31",
 }));

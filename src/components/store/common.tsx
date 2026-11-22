@@ -1,3 +1,4 @@
+import { ProductImage } from "./product-art";
 import { Link } from "@tanstack/react-router";
 import { Heart, Plus, ShoppingBag, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,7 +36,7 @@ export function ProductCard({ product }: { product: Product }) {
           role="img"
           aria-label={tr(product.name)}
         >
-          <span>{product.emoji}</span>
+          <ProductImage product={product} />
           {product.isAdult18 && <span className="product-badge">18+</span>}
         </div>
       </Link>

@@ -13,16 +13,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageHeading, AdultGate } from "./common";
 import { useStore, DirectionArrow } from "./context";
+import { NoticeCard } from "./notice-card";
+import { livePosts } from "@/data/mock";
+import { localDate } from "@/data/slots";
 import { CELLAR_URL, GROCERIES_URL } from "@/lib/brand";
 export function NoticesPage() {
   const { t, tr, notices, toast } = useStore();
   const [filter, setFilter] = useState("all");
   const [subscribed, setSubscribed] = useState(false);
+  const posts = livePosts(notices, localDate(new Date()));
   return (
     <main className="page-width page-body">
       <PageHeading title="notices" subtitle="noticesTop" />
       <div className="notification-previews">
-        {notices.slice(0, 2).map((n) => (
+        {posts.slice(0, 2).map((n) => (
           <div className="notification-preview" key={n.id}>
             <Bell size={19} />
             <div className="min-w-0">
@@ -46,19 +50,10 @@ export function NoticesPage() {
         ))}
       </div>
       <div className="notices-preview mt-0">
-        {notices
+        {posts
           .filter((n) => filter === "all" || n.type === filter)
           .map((n) => (
-            <article className="notice-card" key={n.id}>
-              <span className="notice-type">{t(n.type)}</span>
-              <h3>{tr(n.title)}</h3>
-              <p>{tr(n.body)}</p>
-              <p className="notice-date">
-                <bdi>
-                  {n.from} – {n.until}
-                </bdi>
-              </p>
-            </article>
+            <NoticeCard key={n.id} notice={n} featured={!!n.pinned} />
           ))}
       </div>
       <section className="subscription">
