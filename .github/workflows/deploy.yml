@@ -51,5 +51,5 @@ jobs:
           rsync -az --delete -e "ssh -p $PORT" .output/ "$VPS_USER@$VPS_HOST:/opt/luckycorner/app/"
           $SSH "sudo systemctl restart luckycorner"
           sleep 3
-          $SSH "curl -fsS -o /dev/null http://127.0.0.1:3100/ && echo 'Local check OK'"
+          $SSH "curl -fsS -o /dev/null http://172.16.5.1:3100/ && echo 'Local check OK'"
           curl -fsS -o /dev/null https://luckycorner.elevex.digital/ && echo "Public check OK"
