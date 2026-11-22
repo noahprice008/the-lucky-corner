@@ -13,7 +13,7 @@ import {
   Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo.png.asset.json";
+import { LOGO_URL } from "@/lib/brand";
 import { copy, type CopyKey, type Lang, type Bilingual } from "@/data/translations";
 import {
   products,
@@ -242,7 +242,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
       <header className="store-header">
         <div className="header-inner">
           <Link to="/" className="brand-link">
-            <img className="brand-logo" src={logo.url} alt={t("brand")} />
+            <img className="brand-logo" src={LOGO_URL} alt={t("brand")} />
             <div className="min-w-0">
               <div className="brand-title">{t("brand")}</div>
               <div className="brand-tagline">{t("tagline")}</div>

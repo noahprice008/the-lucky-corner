@@ -1,0 +1,55 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-luckycorner
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PORT: ${{ secrets.VPS_PORT }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.4"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck and test
+        run: |
+          npx tsc --noEmit
+          bun run test
+
+      - name: Build for Node server
+        run: NITRO_PRESET=node-server bun run build
+
+      - name: Upload build and restart service
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          PORT="${VPS_PORT:-22}"
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "$PORT" "$VPS_HOST" >> ~/.ssh/known_hosts
+          SSH="ssh -p $PORT -o StrictHostKeyChecking=yes $VPS_USER@$VPS_HOST"
+          rsync -az --delete -e "ssh -p $PORT" .output/ "$VPS_USER@$VPS_HOST:/opt/luckycorner/app/"
+          $SSH "sudo systemctl restart luckycorner"
+          sleep 3
+          $SSH "curl -fsS -o /dev/null http://127.0.0.1:3100/ && echo 'Local check OK'"
+          curl -fsS -o /dev/null https://luckycorner.elevex.digital/ && echo "Public check OK"

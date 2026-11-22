@@ -1,9 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ShoppingBasket, Sparkles, LockKeyhole, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import groceries from "@/assets/groceries.png.asset.json";
-import cellar from "@/assets/cellar.png.asset.json";
-import logo from "@/assets/logo.png.asset.json";
+import { CELLAR_URL, GROCERIES_URL, LOGO_URL } from "@/lib/brand";
 import { products, categories } from "@/data/mock";
 import { useStore, DirectionArrow } from "./context";
 import { ProductCard } from "./common";
@@ -12,7 +10,7 @@ export function Gateways() {
   return (
     <div className="gateways">
       <Link to="/shop" className="gateway">
-        <img src={groceries.url} className="gateway-img" alt="" />
+        <img src={GROCERIES_URL} className="gateway-img" alt="" />
         <div className="gateway-copy">
           <h2>{t("market")}</h2>
           <p>{t("marketDesc")}</p>
@@ -23,7 +21,7 @@ export function Gateways() {
         </div>
       </Link>
       <Link to="/cellar" className="gateway adult-gateway">
-        <img src={cellar.url} className="gateway-img" alt="" />
+        <img src={CELLAR_URL} className="gateway-img" alt="" />
         <div className="gateway-copy">
           <span className="adult-tag">
             <LockKeyhole size={12} />
@@ -45,7 +43,7 @@ export function HomePage() {
   return (
     <main className="page-width home-content">
       <section className="hero">
-        <img src={groceries.url} className="hero-photo" alt={t("market")} />
+        <img src={GROCERIES_URL} className="hero-photo" alt={t("market")} />
         <div className="hero-copy">
           <div className="hero-eyebrow">
             <Sparkles size={15} />
@@ -149,7 +147,7 @@ export function EntryPage() {
   return (
     <main className="page-width page-body">
       <div className="entry-panel">
-        <img src={logo.url} className="entry-logo" alt={t("brand")} />
+        <img src={LOGO_URL} className="entry-logo" alt={t("brand")} />
         <p className="section-eyebrow">{t("introSmall")}</p>
         <h1>{t("brand")}</h1>
         <p className="text-muted-foreground">{t("welcomeText")}</p>
