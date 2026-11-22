@@ -120,7 +120,7 @@ here=Path(__file__).parent
 (here/'store-scene.svg').write_text(svg,encoding='utf-8')
 from playwright.sync_api import sync_playwright
 from PIL import Image, ImageFilter, ImageEnhance
-out=here.parent/'public'/'images'
+out=here/'out'; out.mkdir(exist_ok=True)
 with sync_playwright() as p:
     b=p.chromium.launch(); pg=b.new_page(viewport={'width':W,'height':H})
     pg.set_content(f'<html><body style="margin:0">{svg}</body></html>'); pg.screenshot(path=str(here/'_scene.png')); b.close()
