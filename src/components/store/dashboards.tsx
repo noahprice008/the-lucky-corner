@@ -6,7 +6,7 @@ import { PageHeading, SlotLabel } from "./common";
 import { RoleGate, Chart } from "./account";
 import { products, kpis, type Notice } from "@/data/mock";
 import { localDate } from "@/data/slots";
-import logo from "@/assets/logo.png.asset.json";
+import { LOGO_URL } from "@/lib/brand";
 export function OwnerPage() {
   return (
     <RoleGate role="owner">
@@ -259,7 +259,7 @@ function StaffDashboard() {
         </div>
       </div>
       <div className="print-only print-heading">
-        <img src={logo.url} alt={t("brand")} />
+        <img src={LOGO_URL} alt={t("brand")} />
         <h1>{t("brand")}</h1>
         <p>
           {t("tagline")} · {t("pickup")}

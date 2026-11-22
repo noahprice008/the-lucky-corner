@@ -13,8 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageHeading, AdultGate } from "./common";
 import { useStore, DirectionArrow } from "./context";
-import groceries from "@/assets/groceries.png.asset.json";
-import cellar from "@/assets/cellar.png.asset.json";
+import { CELLAR_URL, GROCERIES_URL } from "@/lib/brand";
 export function NoticesPage() {
   const { t, tr, notices, toast } = useStore();
   const [filter, setFilter] = useState("all");
@@ -101,7 +100,7 @@ export function PromotionsPage() {
       <PageHeading title="promotions" subtitle="dailyText" />
       <section className="promotion-feature">
         <img
-          src={slide === 2 ? cellar.url : groceries.url}
+          src={slide === 2 ? CELLAR_URL : GROCERIES_URL}
           alt={t(slide === 2 ? "cellar" : "market")}
         />
         <div className="promotion-copy">
