@@ -4,6 +4,7 @@ import { UserRound, LogOut, Heart, ShoppingBag, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { useStore, Price, DirectionArrow } from "./context";
 import { PageHeading, ProductCard, SlotLabel } from "./common";
+import { OrderMessages } from "./inbox";
 import { products, users, kpis, type DemoUser } from "@/data/mock";
 import { canPreviewRole, isDemoSmsCode } from "@/data/slots";
 import type { CopyKey } from "@/data/translations";
@@ -376,6 +377,7 @@ export function HistoryPage() {
                   {t("reorder")}
                 </Button>
               </div>
+              <OrderMessages orderId={o.id} />
             </article>
           ))}
         </section>

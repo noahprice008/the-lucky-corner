@@ -87,7 +87,7 @@ function Catalog({ adult }: { adult: boolean }) {
   );
 }
 export function ProductPage({ id }: { id: string }) {
-  const { t, tr, add, stock, favorites, toggleFavorite } = useStore();
+  const { t, tr, add, stock, favorites, toggleFavorite, priceOf } = useStore();
   const [qty, setQty] = useState(1);
   const p = products.find((p) => p.id === id);
   if (!p)
@@ -104,7 +104,7 @@ export function ProductPage({ id }: { id: string }) {
       <div className="detail-copy">
         {p.isAdult18 && <span className="notice-type red-flag">18+</span>}
         <h1>{tr(p.name)}</h1>
-        <Price value={p.price} />
+        <Price value={priceOf(p.id)} />
         <p>{tr(p.description)}</p>
         <span className="notice-type">
           {t((stock[p.id] ?? 0) > 0 ? "stock" : "out")} · {t("available")}

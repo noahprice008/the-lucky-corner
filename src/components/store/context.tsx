@@ -34,6 +34,7 @@ import {
   type Order,
   type Notice,
 } from "@/data/mock";
+import { sampleMessages, type InboxMessage } from "@/data/inbox";
 import { canAccessAdult, calculateTotal, type PickupSlot } from "@/data/slots";
 interface CartItem {
   productId: string;
@@ -76,6 +77,13 @@ interface StoreState {
   setStock: React.Dispatch<React.SetStateAction<Record<string, number>>>;
   adultVisible: boolean;
   setAdultVisible: (b: boolean) => void;
+  prices: Record<string, number>;
+  setPrices: React.Dispatch<React.SetStateAction<Record<string, number>>>;
+  priceOf: (id: string) => number;
+  messages: InboxMessage[];
+  sendMessage: (orderId: string, text: string, from: InboxMessage["from"]) => void;
+  markAllRead: () => void;
+  markThreadRead: (orderId: string) => void;
 }
 const StoreContext = createContext<StoreState | null>(null);
 export function StoreProvider({ children }: { children: ReactNode }) {
@@ -97,6 +105,19 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     Object.fromEntries(products.map((p) => [p.id, p.stock])),
   );
   const [adultVisible, setAdultVisible] = useState(true);
+  const [prices, setPrices] = useState<Record<string, number>>(
+    Object.fromEntries(products.map((p) => [p.id, p.price])),
+  );
+  const priceOf = (id: string) => prices[id] ?? products.find((p) => p.id === id)?.price ?? 0;
+  const [messages, setMessages] = useState<InboxMessage[]>([]);
+  const sendMessage = (orderId: string, text: string, from: InboxMessage["from"]) =>
+    setMessages((old) => [
+      ...old,
+      { id: `m${Date.now()}${old.length}`, orderId, from, text, at: new Date().toISOString(), read: from !== "customer" },
+    ]);
+  const markAllRead = () => setMessages((old) => old.map((m) => ({ ...m, read: true })));
+  const markThreadRead = (orderId: string) =>
+    setMessages((old) => old.map((m) => (m.orderId === orderId ? { ...m, read: true } : m)));
   const t = (key: CopyKey) => translatePair(lang, copy[key]);
   const tr = (v: Bilingual) => translatePair(lang, v);
   useEffect(() => {
@@ -119,7 +140,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         );
     } catch {}
     setHydrated(true);
-    setOrders(sampleOrders());
+    const initial = sampleOrders();
+    setOrders(initial);
+    setMessages(sampleMessages(initial));
   }, []);
   useEffect(() => {
     if (hydrated) localStorage.setItem("lucky-cart", JSON.stringify(cart));
@@ -156,7 +179,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setMessage(t(p.isAdult18 ? "idRequired" : "added"));
   };
   const subtotal = cart.reduce(
-    (sum, item) => sum + (products.find((p) => p.id === item.productId)?.price ?? 0) * item.qty,
+    (sum, item) => sum + (products.some((p) => p.id === item.productId) ? priceOf(item.productId) : 0) * item.qty,
     0,
   );
   return (
@@ -206,6 +229,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         setStock,
         adultVisible,
         setAdultVisible,
+        prices,
+        setPrices,
+        priceOf,
+        messages,
+        sendMessage,
+        markAllRead,
+        markThreadRead,
       }}
     >
       {children}

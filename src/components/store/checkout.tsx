@@ -9,7 +9,7 @@ import { getSlots, isPickupAllowed, localDate } from "@/data/slots";
 import { useStore, Price, DirectionArrow } from "./context";
 import { PageHeading, EmptyState, SlotLabel } from "./common";
 export function CartPage() {
-  const { t, tr, cart, changeQty, slot, subtotal, total, discount, setDiscount, toast } =
+  const { t, tr, cart, changeQty, slot, subtotal, total, discount, setDiscount, toast, priceOf } =
     useStore();
   const [code, setCode] = useState(discount);
   return (
@@ -33,7 +33,7 @@ export function CartPage() {
                       {tr(p.name)}
                     </Link>
                     <div className="mt-2">
-                      <Price value={p.price * item.qty} />
+                      <Price value={priceOf(p.id) * item.qty} />
                     </div>
                     {p.isAdult18 && <p className="red-flag text-xs mt-1">{t("adultReminder")}</p>}
                   </div>
@@ -138,6 +138,7 @@ export function CartPage() {
 }
 export function CheckoutPage() {
   const {
+    priceOf,
     t,
     tr,
     lang,
@@ -279,7 +280,7 @@ export function CheckoutPage() {
                   <span>
                     {tr(p.name)} × {c.qty}
                   </span>
-                  <bdi>₪{(p.price * c.qty).toFixed(2)}</bdi>
+                  <bdi>₪{(priceOf(p.id) * c.qty).toFixed(2)}</bdi>
                 </div>
               ) : null;
             })}

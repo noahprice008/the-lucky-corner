@@ -17,7 +17,7 @@ export function PageHeading({ title, subtitle }: { title: CopyKey; subtitle?: Co
   );
 }
 export function ProductCard({ product }: { product: Product }) {
-  const { t, tr, add, favorites, toggleFavorite, stock } = useStore();
+  const { t, tr, add, favorites, toggleFavorite, stock, priceOf } = useStore();
   const category = categories.find((c) => c.id === product.category);
   const available = (stock[product.id] ?? 0) > 0;
   return (
@@ -49,7 +49,7 @@ export function ProductCard({ product }: { product: Product }) {
           {category ? tr(category.name) : ""} · {t(available ? "available" : "out")}
         </div>
         <div className="product-bottom">
-          <Price value={product.price} />
+          <Price value={priceOf(product.id)} />
           <Button
             variant="secondary"
             className="product-add"

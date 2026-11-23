@@ -6,6 +6,8 @@ import { useStore, Price } from "./context";
 import { PageHeading, SlotLabel } from "./common";
 import { RoleGate, Chart } from "./account";
 import { PostsManager } from "./posts-admin";
+import { InventoryManager } from "./inventory-admin";
+import { InboxPanel } from "./inbox";
 import { products, kpis } from "@/data/mock";
 import { localDate } from "@/data/slots";
 import { LOGO_URL } from "@/lib/brand";
@@ -21,9 +23,6 @@ function OwnerDashboard() {
     t,
     tr,
     stock,
-    setStock,
-    adultVisible,
-    setAdultVisible,
     toast,
     registeredUsers,
     specialEnabled,
@@ -89,37 +88,8 @@ function OwnerDashboard() {
           </Button>
         </div>
       </div>
-      <section className="section-divider">
-        <h2 className="text-xl font-bold">{t("stockEditor")}</h2>
-        <label className="toggle-row">
-          {t("adultVisibility")}
-          <input
-            type="checkbox"
-            checked={adultVisible}
-            onChange={(e) => setAdultVisible(e.target.checked)}
-          />
-        </label>
-        <div className="stock-grid">
-          {products.map((p) => (
-            <label className="stock-row" key={p.id}>
-              <span>
-                {tr(p.name)}
-                {p.isAdult18 && <span className="red-flag"> 18+</span>}
-              </span>
-              <input
-                aria-label={`${t("quantity")} ${tr(p.name)}`}
-                type="number"
-                min={0}
-                value={stock[p.id] ?? 0}
-                onChange={(e) => {
-                  const n = Number(e.target.value);
-                  if (Number.isInteger(n) && n >= 0) setStock((old) => ({ ...old, [p.id]: n }));
-                }}
-              />
-            </label>
-          ))}
-        </div>
-      </section>
+      <InventoryManager />
+      <InboxPanel />
     </main>
   );
 }
@@ -188,6 +158,7 @@ function StaffDashboard() {
           {t("tagline")} · {t("pickup")}
         </p>
       </div>
+      <InboxPanel />
       {todayOrders.length === 0 && (
         <div className="empty-state no-print">
           <CalendarDays />
