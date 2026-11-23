@@ -3,11 +3,11 @@ import {isPickupAllowed,getSlots,canAccessAdult,calculateTotal,canPreviewRole,is
 import {products,users,notices,sampleOrders} from '@/data/mock';
 const now=new Date(2026,10,22,10,0,0,0);
 describe('Pickup-only scheduling rules',()=>{
- it('requires a lead time of at least 15 minutes',()=>{expect(isPickupAllowed(new Date(2026,10,22,10,15),now)).toBe(true);expect(isPickupAllowed(new Date(2026,10,22,10,0),now)).toBe(false);expect(isPickupAllowed(new Date(2026,10,22,10,15),new Date(2026,10,22,10,1))).toBe(false);});
- it('allows seven days ahead, but not later',()=>{expect(isPickupAllowed(new Date(2026,10,29,10,0),now)).toBe(true);expect(isPickupAllowed(new Date(2026,10,29,10,15),now)).toBe(false);});
- it('uses 15-minute windows and aligned start times',()=>{expect(isPickupAllowed(new Date(2026,10,22,10,20),now)).toBe(false);const slots=getSlots(now);expect(slots.length).toBeGreaterThan(0);for(const s of slots){expect(new Date(s.end).getTime()-new Date(s.start).getTime()).toBe(900000);expect(new Date(s.start).getMinutes()%15).toBe(0);}});
- it('opens Sunday–Thursday at 07:00 and closes at 23:00',()=>{const before=new Date(2026,10,22,6,0);expect(isPickupAllowed(new Date(2026,10,22,7,0),before)).toBe(true);expect(isPickupAllowed(new Date(2026,10,22,6,45),before)).toBe(false);expect(isPickupAllowed(new Date(2026,10,22,22,45),before)).toBe(true);expect(isPickupAllowed(new Date(2026,10,22,23,0),before)).toBe(false);});
- it('closes Friday at 15:00',()=>{expect(isPickupAllowed(new Date(2026,10,27,14,45),now)).toBe(true);expect(isPickupAllowed(new Date(2026,10,27,15,0),now)).toBe(false);});
+ it('requires a lead time of at least 15 minutes',()=>{expect(isPickupAllowed(new Date(2026,10,22,10,30),now)).toBe(true);expect(isPickupAllowed(new Date(2026,10,22,10,0),now)).toBe(false);expect(isPickupAllowed(new Date(2026,10,22,10,30),new Date(2026,10,22,10,16))).toBe(false);});
+ it('allows seven days ahead, but not later',()=>{expect(isPickupAllowed(new Date(2026,10,29,10,0),now)).toBe(true);expect(isPickupAllowed(new Date(2026,10,29,10,30),now)).toBe(false);});
+ it('uses 30-minute windows and aligned start times',()=>{expect(isPickupAllowed(new Date(2026,10,22,10,20),now)).toBe(false);const slots=getSlots(now);expect(slots.length).toBeGreaterThan(0);for(const s of slots){expect(new Date(s.end).getTime()-new Date(s.start).getTime()).toBe(1800000);expect(new Date(s.start).getMinutes()%30).toBe(0);}});
+ it('opens Sunday–Thursday at 07:00 and closes at 23:00',()=>{const before=new Date(2026,10,22,6,0);expect(isPickupAllowed(new Date(2026,10,22,7,0),before)).toBe(true);expect(isPickupAllowed(new Date(2026,10,22,6,30),before)).toBe(false);expect(isPickupAllowed(new Date(2026,10,22,22,30),before)).toBe(true);expect(isPickupAllowed(new Date(2026,10,22,23,0),before)).toBe(false);});
+ it('closes Friday at 15:00',()=>{expect(isPickupAllowed(new Date(2026,10,27,14,30),now)).toBe(true);expect(isPickupAllowed(new Date(2026,10,27,15,0),now)).toBe(false);});
  it('offers no Saturday slots',()=>{expect(isPickupAllowed(new Date(2026,10,28,10,0),now)).toBe(false);expect(getSlots(now).some(s=>new Date(s.start).getDay()===6)).toBe(false);});
 });
 describe('Age, discount and demo-role rules',()=>{

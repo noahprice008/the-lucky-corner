@@ -8,12 +8,14 @@ import {
 import { getSlots } from "./slots";
 import barcodes from "./product-barcodes.json";
 // Category: numeric ID, bilingual name, visual placeholder, adult flag.
+// The lottery category (id 9) is not sold online, per the owner's answers.
+const LOTTERY_CATEGORY = 9;
 export const categories = categoryText.map((name, id) => ({
   id,
   name,
   emoji: ["🥨", "🧃", "🥛", "🧼", "📚", "☕", "🍺", "🍷", "🥃", "🎟️"][id] ?? "🛒",
   isAdult18: id >= 6,
-}));
+})).filter((c) => c.id !== LOTTERY_CATEGORY);
 // Product: stable ID, bilingual title/description, category, NIS price, stock, adult and out-of-stock flags.
 export interface Product {
   id: string;
@@ -82,7 +84,8 @@ const emojis = [
   "📚",
   "🌽",
 ];
-export const products: Product[] = productText.map((name, i) => ({
+export const products: Product[] = productText
+  .map((name, i) => ({
   id: `p${i + 1}`,
   name,
   description: productDescription,
@@ -94,7 +97,8 @@ export const products: Product[] = productText.map((name, i) => ({
   emoji: emojis[i] ?? "🛍️",
   kind: kinds[i] ?? "box",
   ...(photoFor(i) ? { image: photoFor(i) as string } : {}),
-}));
+}))
+  .filter((p) => p.category !== LOTTERY_CATEGORY);
 // Notice: stable ID, translated content, filter type and active date range.
 export interface Notice {
   id: string;

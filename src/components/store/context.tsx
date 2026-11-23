@@ -21,7 +21,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { languages } from "@/data/languages";
+import { languages, langInfo } from "@/data/languages";
+import { translatePair } from "@/data/lang";
 import { LOGO_URL } from "@/lib/brand";
 import { copy, type CopyKey, type Lang, type Bilingual } from "@/data/translations";
 import {
@@ -96,8 +97,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     Object.fromEntries(products.map((p) => [p.id, p.stock])),
   );
   const [adultVisible, setAdultVisible] = useState(true);
-  const t = (key: CopyKey) => copy[key][lang === "he" ? 0 : 1];
-  const tr = (v: Bilingual) => v[lang === "he" ? 0 : 1] || v[0];
+  const t = (key: CopyKey) => translatePair(lang, copy[key]);
+  const tr = (v: Bilingual) => translatePair(lang, v);
   useEffect(() => {
     try {
       const stored = JSON.parse(localStorage.getItem("lucky-cart") ?? "[]") as unknown;
@@ -124,7 +125,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (hydrated) localStorage.setItem("lucky-cart", JSON.stringify(cart));
   }, [cart, hydrated]);
   useEffect(() => {
-    document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
+    document.documentElement.dir = langInfo(lang).dir;
     document.documentElement.lang = lang;
   }, [lang]);
   useEffect(() => {
@@ -226,7 +227,7 @@ export function Price({ value }: { value: number }) {
 }
 export function DirectionArrow({ className = "" }: { className?: string }) {
   const { lang } = useStore();
-  return lang === "he" ? (
+  return langInfo(lang).dir === "rtl" ? (
     <ArrowLeft size={16} className={className} />
   ) : (
     <ArrowRight size={16} className={className} />
@@ -247,7 +248,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
   const hours =
     day === 6 ? t("closed") : `${t("open").split("23:00")[0]}${day === 5 ? "15:00" : "23:00"}`;
   return (
-    <div dir={lang === "he" ? "rtl" : "ltr"}>
+    <div dir={langInfo(lang).dir}>
       <header className="store-header">
         <div className="header-inner">
           <Link to="/" className="brand-link">

@@ -1,6 +1,6 @@
 import { ProductImage } from "./product-art";
 import { useState, useEffect } from "react";
-import { Link, useSearch } from "@tanstack/react-router";
+import { useSearch } from "@tanstack/react-router";
 import { Mic, Search, Minus, Plus, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/mock";
@@ -82,11 +82,6 @@ function Catalog({ adult }: { adult: boolean }) {
           <Search />
           <p>{t("noResults")}</p>
         </div>
-      )}
-      {adult && (
-        <Button asChild className="mt-8">
-          <Link to="/lottery">{t("lottery")}</Link>
-        </Button>
       )}
     </>
   );

@@ -19,7 +19,6 @@ import { Route as EntryRouteImport } from './routes/entry'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as InfoRouteImport } from './routes/info'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as LotteryRouteImport } from './routes/lottery'
 import { Route as NoticesRouteImport } from './routes/notices'
 import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as PromotionsRouteImport } from './routes/promotions'
@@ -78,11 +77,6 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LotteryRoute = LotteryRouteImport.update({
-  id: '/lottery',
-  path: '/lottery',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const NoticesRoute = NoticesRouteImport.update({
   id: '/notices',
   path: '/notices',
@@ -130,7 +124,6 @@ export interface FileRoutesByFullPath {
   '/history': typeof HistoryRoute
   '/info': typeof InfoRoute
   '/login': typeof LoginRoute
-  '/lottery': typeof LotteryRoute
   '/notices': typeof NoticesRoute
   '/owner': typeof OwnerRoute
   '/promotions': typeof PromotionsRoute
@@ -150,7 +143,6 @@ export interface FileRoutesByTo {
   '/history': typeof HistoryRoute
   '/info': typeof InfoRoute
   '/login': typeof LoginRoute
-  '/lottery': typeof LotteryRoute
   '/notices': typeof NoticesRoute
   '/owner': typeof OwnerRoute
   '/promotions': typeof PromotionsRoute
@@ -171,7 +163,6 @@ export interface FileRoutesById {
   '/history': typeof HistoryRoute
   '/info': typeof InfoRoute
   '/login': typeof LoginRoute
-  '/lottery': typeof LotteryRoute
   '/notices': typeof NoticesRoute
   '/owner': typeof OwnerRoute
   '/promotions': typeof PromotionsRoute
@@ -193,7 +184,6 @@ export interface FileRouteTypes {
     | '/history'
     | '/info'
     | '/login'
-    | '/lottery'
     | '/notices'
     | '/owner'
     | '/promotions'
@@ -213,7 +203,6 @@ export interface FileRouteTypes {
     | '/history'
     | '/info'
     | '/login'
-    | '/lottery'
     | '/notices'
     | '/owner'
     | '/promotions'
@@ -233,7 +222,6 @@ export interface FileRouteTypes {
     | '/history'
     | '/info'
     | '/login'
-    | '/lottery'
     | '/notices'
     | '/owner'
     | '/promotions'
@@ -254,7 +242,6 @@ export interface RootRouteChildren {
   HistoryRoute: typeof HistoryRoute
   InfoRoute: typeof InfoRoute
   LoginRoute: typeof LoginRoute
-  LotteryRoute: typeof LotteryRoute
   NoticesRoute: typeof NoticesRoute
   OwnerRoute: typeof OwnerRoute
   PromotionsRoute: typeof PromotionsRoute
@@ -336,13 +323,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/lottery': {
-      id: '/lottery'
-      path: '/lottery'
-      fullPath: '/lottery'
-      preLoaderRoute: typeof LotteryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/notices': {
       id: '/notices'
       path: '/notices'
@@ -406,7 +386,6 @@ const rootRouteChildren: RootRouteChildren = {
   HistoryRoute: HistoryRoute,
   InfoRoute: InfoRoute,
   LoginRoute: LoginRoute,
-  LotteryRoute: LotteryRoute,
   NoticesRoute: NoticesRoute,
   OwnerRoute: OwnerRoute,
   PromotionsRoute: PromotionsRoute,

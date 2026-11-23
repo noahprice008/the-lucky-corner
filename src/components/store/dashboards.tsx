@@ -1,3 +1,4 @@
+import { langInfo } from "@/data/languages";
 import { useState, useEffect } from "react";
 import { Printer, CalendarDays, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -133,6 +134,7 @@ function StaffDashboard() {
   const { t, tr, orders, lang } = useStore();
   const [format, setFormat] = useState("A4");
   const [selected, setSelected] = useState<string | null>(null);
+  const [missing, setMissing] = useState<string[]>([]);
   const [printing, setPrinting] = useState(false);
   const today = localDate(new Date());
   const todayOrders = orders
@@ -158,7 +160,7 @@ function StaffDashboard() {
       <div className="no-print">
         <PageHeading title="staff" subtitle="readonly" />
         <p className="text-primary mb-5">
-          {new Date().toLocaleDateString(lang === "he" ? "he-IL" : "en-GB", {
+          {new Date().toLocaleDateString(langInfo(lang).locale, {
             weekday: "long",
             day: "numeric",
             month: "long",
@@ -229,8 +231,20 @@ function StaffDashboard() {
                 {o.items.some((c) => products.find((p) => p.id === c.productId)?.isAdult18) && (
                   <p className="red-flag text-sm mt-3">{t("idRequired")}</p>
                 )}
-                <div className="mt-4 flex items-center justify-between">
+                {missing.includes(o.id) && (
+                  <p className="red-flag text-sm mt-3 no-print">{t("callCustomer")}</p>
+                )}
+                <div className="mt-4 flex items-center justify-between gap-2 flex-wrap">
                   <Price value={o.total} />
+                  <Button
+                    className="no-print"
+                    variant={missing.includes(o.id) ? "default" : "outline"}
+                    onClick={() =>
+                      setMissing((m) => (m.includes(o.id) ? m.filter((x) => x !== o.id) : [...m, o.id]))
+                    }
+                  >
+                    {t("missingItem")}
+                  </Button>
                   <Button className="print-button" variant="outline" onClick={() => print(o.id)}>
                     <Printer />
                     {t("print")}

@@ -1,3 +1,4 @@
+import { langInfo } from "@/data/languages";
 import { ProductImage } from "./product-art";
 import { Link } from "@tanstack/react-router";
 import { Heart, Plus, ShoppingBag, LockKeyhole } from "lucide-react";
@@ -85,7 +86,7 @@ export function SlotLabel({ start, end }: { start: string; end: string }) {
   return (
     <span>
       <span>
-        {date.toLocaleDateString(lang === "he" ? "he-IL" : "en-GB", {
+        {date.toLocaleDateString(langInfo(lang).locale, {
           weekday: "short",
           day: "numeric",
           month: "long",

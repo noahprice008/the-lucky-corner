@@ -1,4 +1,4 @@
-export type Lang = "he" | "en";
+export type Lang = "he" | "ru" | "fr" | "ar" | "hi" | "en";
 export type Bilingual = readonly [string, string];
 // Hebrew is the source; all interface copy and mock content are paired here.
 export const copy = {
@@ -66,7 +66,6 @@ export const copy = {
   login: ["כניסה / הרשמה", "Sign in / Register"],
   entry: ["ברוכים הבאים", "Welcome"],
   cellar: ["מרתף ובידור", "Cellar & entertainment"],
-  lottery: ["תוצאות וגירוד", "Lottery & scratch"],
   owner: ["ניהול החנות", "Owner dashboard"],
   staff: ["איסופים היום", "Staff pickups"],
   checkout: ["סיום הזמנה", "Checkout"],
@@ -121,7 +120,7 @@ export const copy = {
   pickupTime: ["מועד האיסוף", "Pickup date & time"],
   chooseSlot: ["בחרו מועד איסוף", "Choose a pickup slot"],
   noSlot: ["טרם נבחר מועד איסוף", "No pickup time selected"],
-  slotHint: ["איסוף החל מ־15 דקות ועד 7 ימים מראש", "Pickup from 15 minutes to 7 days ahead"],
+  slotHint: ["חלונות איסוף של חצי שעה, עד 7 ימים מראש", "Half-hour pickup windows, up to 7 days ahead"],
   closed: ["החנות סגורה", "Store closed"],
   full: ["מלא", "Full"],
   payment: ["אמצעי תשלום", "Payment method"],
@@ -201,10 +200,6 @@ export const copy = {
   message: ["הודעה לחנות", "Message the store"],
   send: ["שליחת הודעה", "Send message"],
   sent: ["ההודעה התקבלה בהדגמה", "Message received in demo"],
-  scratch: ["גרדו וגלו", "Scratch & reveal"],
-  reveal: ["חשיפת כרטיס", "Reveal card"],
-  scratchResult: ["מזל טוב! ₪20 לדוגמה", "Lucky you! Demo ₪20"],
-  results: ["תוצאות לדוגמה בלבד", "Mock results only"],
   todayOrders: ["הזמנות היום", "Today’s orders"],
   revenue: ["הכנסות היום", "Today’s revenue"],
   users: ["לקוחות רשומים", "Registered customers"],
@@ -281,6 +276,9 @@ export const copy = {
   status: ["סטטוס", "Status"],
   items: ["פריטים", "items"],
   pickupStore: ["חנות האיסוף", "Pickup store"],
+  missingItem: ["חסר מוצר — להתקשר ללקוח", "Item missing — call the customer"],
+  callCustomer: ["התקשרו ללקוח לפני ההכנה", "Call the customer before preparing"],
+  slotsLeft: ["מקומות פנויים", "spots left"],
   noResults: ["לא נמצאו מוצרים", "No products found"],
   introSmall: ["הדברים הטובים נמצאים ממש מעבר לפינה", "Good things are just around the corner"],
 } as const satisfies Record<string, Bilingual>;

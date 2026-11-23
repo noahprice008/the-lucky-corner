@@ -254,24 +254,3 @@ export function SupportPage() {
     </main>
   );
 }
-export function LotteryPage() {
-  const { t } = useStore();
-  const [revealed, setRevealed] = useState(false);
-  return (
-    <main className="page-width page-body">
-      <AdultGate>
-        <PageHeading title="lottery" subtitle="results" />
-        <div className="results-ticker">
-          <bdi>04 · 12 · 18 · 23 · 29 · 35 + 7</bdi>
-        </div>
-        <div className="scratch-card">{revealed ? t("scratchResult") : t("scratch")}</div>
-        <Button disabled={revealed} onClick={() => setRevealed(true)}>
-          {t("reveal")}
-        </Button>
-        <p className="page-subtitle mt-4">
-          {t("results")} · {t("idRequired")}
-        </p>
-      </AdultGate>
-    </main>
-  );
-}

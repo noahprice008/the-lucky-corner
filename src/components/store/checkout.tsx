@@ -1,3 +1,4 @@
+import { langInfo } from "@/data/languages";
 import { ProductImage } from "./product-art";
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -215,7 +216,7 @@ export function CheckoutPage() {
                   onClick={() => setDate(localDate(d))}
                 >
                   <span>
-                    {d.toLocaleDateString(lang === "he" ? "he-IL" : "en-GB", { weekday: "short" })}
+                    {d.toLocaleDateString(langInfo(lang).locale, { weekday: "short" })}
                   </span>
                   <bdi>
                     {d.getDate()}/{d.getMonth() + 1}
